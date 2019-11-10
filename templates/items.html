@@ -45,7 +45,7 @@
                             {% if request.user.is_superuser %}
                                 <a class="badge-warning rounded" href="../admin/core/item/{{ item.id }}/change/"
                                    target="_blank">change</a>
-                                <a class="badge-danger rounded" href="../admin/core/items/{{ item.id }}/delete/"
+                                <a class="badge-danger rounded" href="../admin/core/item/{{ item.id }}/delete/"
                                    target="_blank">delete</a>
                             {% endif %}
                         </div>
@@ -72,7 +72,7 @@
             // widget code contained in the jquery.tablesorter.widgets.js file
             // use the zebra stripe widget if you plan on hiding any rows (filter widget)
             // the uitheme widget is NOT REQUIRED!
-            widgets: ["filter", "columns", "zebra"],
+            widgets: ["columns", "zebra"],
 
             widgetOptions: {
                 // using the default zebra striping class name, so it actually isn't included in the theme variable above
@@ -81,18 +81,6 @@
 
                 // class names added to columns when sorted
                 columns: ["primary", "secondary", "tertiary"],
-
-                // reset filters button
-
-                // extra css class name (string or array) added to the filter element (input or select)
-                filter_cssFilter: [
-                    'form-control',
-                    'form-control',
-                    'form-control',
-                    'form-control',
-                    'form-control',
-                    'form-control'
-                ]
 
             }
         })
