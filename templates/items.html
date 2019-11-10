@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container" style="margin-top: 10px">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark"> <!-- add class="thead-light" for a light header -->
+            <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Count</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th colspan="6" class="ts-pager">
+                    <div class="form-inline">
+                        <div class="btn-group btn-group-sm mx-1" role="group">
+                            <button type="button" class="btn btn-secondary first" title="first">⇤</button>
+                            <button type="button" class="btn btn-secondary prev" title="previous">←</button>
+                        </div>
+                        <span class="pagedisplay"></span>
+                        <div class="btn-group btn-group-sm mx-1" role="group">
+                            <button type="button" class="btn btn-secondary next" title="next">→</button>
+                            <button type="button" class="btn btn-secondary last" title="last">⇥</button>
+                        </div>
+                        <select class="form-control-sm custom-select px-1 pagesize" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="all">All Rows</option>
+                        </select>
+                        <select class="form-control-sm custom-select px-4 mx-1 pagenum"
+                                title="Select page number"></select>
+                    </div>
+                </th>
+            </tr>
+            </tfoot>
+            <tbody>
+            {% for item in items %}
+                <tr>
+                    <td><img style="width: 100px; height: 100px" src="{{ item.image.url }}">
+                        <div>
+                            {% if request.user.is_superuser %}
+                                <a class="badge-warning rounded" href="../admin/core/item/{{ item.id }}/change/"
+                                   target="_blank">change</a>
+                                <a class="badge-danger rounded" href="../admin/core/items/{{ item.id }}/delete/"
+                                   target="_blank">delete</a>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{% for category in item.category.all %} {{ category }} {% endfor %}</td>
+                    <td>{{ item.count }}</td>
+                    <td>{{ item.description }}</td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block extra_scripts %}
+    <script>
+        $("table").tablesorter({
+            theme: "bootstrap",
+
+            widthFixed: true,
+
+            // widget code contained in the jquery.tablesorter.widgets.js file
+            // use the zebra stripe widget if you plan on hiding any rows (filter widget)
+            // the uitheme widget is NOT REQUIRED!
+            widgets: ["filter", "columns", "zebra"],
+
+            widgetOptions: {
+                // using the default zebra striping class name, so it actually isn't included in the theme variable above
+                // this is ONLY needed for bootstrap theming if you are using the filter widget, because rows are hidden
+                zebra: ["even", "odd"],
+
+                // class names added to columns when sorted
+                columns: ["primary", "secondary", "tertiary"],
+
+                // reset filters button
+
+                // extra css class name (string or array) added to the filter element (input or select)
+                filter_cssFilter: [
+                    'form-control',
+                    'form-control',
+                    'form-control',
+                    'form-control',
+                    'form-control',
+                    'form-control'
+                ]
+
+            }
+        })
+            .tablesorterPager({
+
+                // target the pager markup - see the HTML block below
+                container: $(".ts-pager"),
+
+                // target the pager page select dropdown - choose a page
+                cssGoto: ".pagenum",
+
+                // remove rows from the table to speed up the sort of large tables.
+                // setting this to false, only hides the non-visible rows; needed if you plan to add/remove rows with the pager enabled.
+                removeRows: false,
+
+                // output string - default is '{page}/{totalPages}';
+                // possible variables: {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
+                output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
+
+            });
+    </script>
+{% endblock %}
