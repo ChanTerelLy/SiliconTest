@@ -1,9 +1,17 @@
 # SiliconTest
-Install dependencies: pip install -r requirements.txt
-Super user:
-admin
-admin
+Deployed Application:
+* http://chanterelly.pythonanywhere.com/
+
+Install dependencies:
+* pip install -r requirements.txt
+
+Run application:
+* python manage.py runserver
+
+SuperUser:
+* login: admin
+* password: admin
 
 Common user:
-test_user
-123456QqQq
+* login: test_user
+* password: 123456QqQq
